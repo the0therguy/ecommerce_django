@@ -18,14 +18,14 @@ for (var i = 0; i < updateBtns.length; i++) {
 function addCookieItem(productId, action) {
     console.log('User is not authenticated')
 
-    if (action == "add") {
+    if (action == 'add') {
         if (cart[productId] == undefined) {
             cart[productId] = {'quantity': 1}
         } else {
             cart[productId]['quantity'] += 1
         }
     }
-    if (action == "remove") {
+    if (action == 'remove') {
         cart[productId]['quantity'] -= 1
 
         if (cart[productId]['quantity'] <= 0) {
@@ -36,6 +36,7 @@ function addCookieItem(productId, action) {
     }
     console.log('Cart: ', cart)
     document.cookie = 'cart=' + JSON.stringify(cart) + ";doamin=;path=/"
+    location.reload()
 
 }
 
