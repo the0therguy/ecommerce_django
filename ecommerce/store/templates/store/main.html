@@ -79,6 +79,8 @@
         </ul>
         <div class="form-inline my-2 my-lg-0">
             <a href="{% url 'login' %}" class="btn btn-warning">Login</a>
+            <span id="hello-msg">Hello, {{request.user}}</span>
+            <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
 
             <a href="{% url 'cart' %}">
                 <img id="cart-icon" src="{% static 'images/cart.png' %}">
