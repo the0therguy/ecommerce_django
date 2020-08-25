@@ -1,10 +1,47 @@
 # Create your views here.
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 from django.http import JsonResponse
 import json
 import datetime
 from .utils import cookieCart, cartData, guestOrder
+from django.contrib.auth.forms import UserCreationForm
+from .forms import *
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+
+
+def register_page(request):
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request, "Account was created " + user)
+            return redirect('login')
+
+    context = {'form': form}
+    return render(request, 'store/register.html', context)
+
+
+def login_page(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("store")
+        else:
+            messages.info(request, "messages and password is incorrect")
+            return render(request, 'store/login.html')
+    context = {}
+    return render(request, 'store/login.html', context)
+
+
+def logout_page(request):
+    return redirect("login")
 
 
 def store(request):
